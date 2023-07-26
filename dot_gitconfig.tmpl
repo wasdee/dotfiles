@@ -1,3 +1,3 @@
 [user]
-	email = {{ .email | "nutchanon@codustry.com" }}
-	name = {{ .name | "nutchanon ninyawee" }}
+	email = {{ .email | default "nutchanon@codustry.com" | quote }}
+	name = {{ .name | default "nutchanon" | quote }}
