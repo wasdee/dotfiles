@@ -122,7 +122,13 @@ fi
 export FLYCTL_INSTALL="/home/nam/.fly"
 export PATH="$FLYCTL_INSTALL/bin:$PATH"
 
+{{ if eq .chezmoi.os "linux" }}
+{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+# WSL-specific code
 export BROWSER=/usr/bin/wslview
 alias open="/usr/bin/wslview"
+{{   end }}
+{{ end }}
+
 
 export EDITOR="code --wait"
