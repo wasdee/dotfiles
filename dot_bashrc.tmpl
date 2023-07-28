@@ -127,8 +127,12 @@ export PATH="$FLYCTL_INSTALL/bin:$PATH"
 # WSL-specific code
 export BROWSER=/usr/bin/wslview
 alias open="/usr/bin/wslview"
+
+export DOCKER_HOST_PATH="/var/run/docker.sock"
 {{   end }}
 {{ end }}
 
 
 export EDITOR="code --wait"
+
+
