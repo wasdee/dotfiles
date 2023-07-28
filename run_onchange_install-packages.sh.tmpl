@@ -1,7 +1,43 @@
 {{ if eq .chezmoi.os "linux" -}}
 #!/bin/sh
 sudo apt install ripgrep
+
+# Install asdf dependencies
+sudo apt install curl git
+
+# Python dependencies
+sudo apt install build-essential libssl-dev zlib1g-dev libbz2-dev \
+    libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev \
+    libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl
+    
 {{ else if eq .chezmoi.os "darwin" -}}
 #!/bin/sh
 brew install ripgrep
 {{ end -}}
+
+git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.12.0
+
+. "$HOME/.asdf/asdf.sh"
+. "$HOME/.asdf/completions/asdf.bash"
+
+asdf plugin add python
+
+asdf install python latest
+asdf global python latest
+asdf plugin add poetry
+asdf install poetry latest
+asdf global poetry latest
+asdf plugin add dvc
+asdf install dvc latest
+asdf global dvc latest
+asdf plugin add nodejs
+asdf install nodejs 18.17.0
+asdf global nodejs 18.17.0
+asdf plugin add pnpm
+asdf install pnpm latest
+asdf global pnpm latest
+
+asdf plugin add just
+asdf install just latest
+asdf global just latest
+
