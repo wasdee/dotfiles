@@ -116,6 +116,13 @@ if ! shopt -oq posix; then
   fi
 fi
 
+mkdir -p ~/.completions
+for file in ~/.completions/*; do
+  if [ -f "$file" ]; then
+    . "$file"
+  fi
+done
+
 . "$HOME/.asdf/asdf.sh"
 . "$HOME/.asdf/completions/asdf.bash"
 
