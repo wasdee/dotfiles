@@ -10,8 +10,11 @@ sudo apt install build-essential libssl-dev zlib1g-dev libbz2-dev \
     libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev \
     libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl
 
-# docker dependencies
-sudo apt install 
+
+# Install DVC
+sudo snap install dvc --classic
+
+
 
 {{ else if eq .chezmoi.os "darwin" -}}
 #!/bin/sh
@@ -36,10 +39,7 @@ asdf plugin add poetry
 asdf install poetry latest
 asdf global poetry latest
 
-# Install DVC
-asdf plugin add dvc
-asdf install dvc latest
-asdf global dvc latest
+
 
 # Install Node.js
 asdf plugin add nodejs
@@ -55,4 +55,5 @@ asdf global pnpm latest
 asdf plugin add just
 asdf install just latest
 asdf global just latest
+
 
