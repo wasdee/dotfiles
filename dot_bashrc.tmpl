@@ -144,7 +144,7 @@ export DOCKER_HOST_PATH="/var/run/docker.sock"
 export PATH=/usr/bin:$PATH
 
 
-{{ if aeq .site "server" }}
+{{ if eq .site "server" }}
 export DOCKER_HOST=unix:///run/user/1000/docker.sock
 export DOCKER_HOST_PATH="/run/user/1000/docker.sock"
 {{ end }}
