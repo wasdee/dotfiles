@@ -1,3 +1,6 @@
 [user]
-	email = {{ .email | default "nutchanon@codustry.com" | quote }}
-	name = {{ .name | default "nutchanon" | quote }}
+	email = {{ .email | quote }}
+	name = {{ .name | quote }}
+
+[pull]
+    rebase = false

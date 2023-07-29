@@ -1,0 +1,6 @@
+{{- $email := promptStringOnce . "email" "Email address" "nutchanon@codustry.com" -}}
+
+[data]
+    email = {{ $email | quote }}
+    site = "home"
+    name = "Nutchanon Ninyawee"
