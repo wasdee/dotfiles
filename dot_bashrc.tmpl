@@ -143,15 +143,20 @@ export DOCKER_HOST_PATH="/var/run/docker.sock"
 
 export PATH=/usr/bin:$PATH
 
-{{ if .site }}
-  {{ if and (.site) (eq .site "server") }}
+
+{{ if aeq .site "server" }}
 export DOCKER_HOST=unix:///run/user/1000/docker.sock
 export DOCKER_HOST_PATH="/run/user/1000/docker.sock"
-  {{ end }}
-{{ else }}
-  # Default value or empty string
 {{ end }}
 
+
+if command -v zoxide &> /dev/null; then
+    eval "$(zoxide init bash)"
+fi
+
+if command -v mcfly &> /dev/null; then
+    eval "$(mcfly init bash)"
+fi
 
 
 export EDITOR="code --wait"

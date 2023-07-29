@@ -1,6 +1,6 @@
 {{ if eq .chezmoi.os "linux" -}}
 #!/bin/sh
-sudo apt install ripgrep
+sudo apt update
 
 # Install asdf dependencies
 sudo apt install curl git jq
@@ -26,7 +26,7 @@ if [ ! -d "$HOME/.asdf" ]; then
     git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.12.0
 fi
 
-alias asdf=/home/azureuser/.asdf/bin/asdf
+alias asdf=$HOME/.asdf/bin/asdf
 
 
 # Install Python
@@ -56,4 +56,40 @@ asdf plugin add just
 asdf install just latest
 asdf global just latest
 
+asdf plugin add fzf
+asdf install fzf latest
+asdf global fzf latest
 
+asdf plugin add zoxide
+asdf install zoxide latest
+asdf global zoxide latest
+
+asdf plugin add bat
+asdf install bat latest
+asdf global bat latest
+
+asdf plugin add mcfly
+asdf install mcfly latest
+asdf global mcfly latest
+
+asdf plugin add fd
+asdf install fd latest
+asdf global fd latest
+
+asdf plugin add exa
+asdf install exa latest
+asdf global exa latest
+
+asdf plugin add dust
+asdf install dust latest
+asdf global dust latest
+
+asdf plugin add htop
+asdf install htop latest
+asdf global htop latest
+
+# tealdeer
+asdf plugin add tealdeer
+asdf install tealdeer latest
+asdf global tealdeer latest
+tealdeer --update
