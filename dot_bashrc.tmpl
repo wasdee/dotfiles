@@ -105,7 +105,7 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-mkdir -p ~/.bash_completion
+mkdir -p ~/.bash_completions
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
@@ -114,7 +114,7 @@ if ! shopt -oq posix; then
     . /usr/share/bash-completion/bash_completion
   elif [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
-  elif [ -f ~/.bash_completion ]; then
+  elif [ -f ~/.bash_completions ]; then
     for file in ~/.completions/*; do
       if [ -f "$file" ]; then
         . "$file"
@@ -158,7 +158,7 @@ if command -v mcfly &> /dev/null; then
     eval "$(mcfly init bash)"
 fi
 
-
 export EDITOR="code --wait"
 
-
+export PATH="$PATH:/home/nam/.local/bin"
+export PATH="$PATH:/snap/bin"

@@ -1,5 +1,12 @@
-{{ if eq .chezmoi.os "linux" -}}
 #!/bin/sh
+if ! command -v brew &> /dev/null
+then
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+else
+    echo "Homebrew is already installed"
+fi
+
+{{ if eq .chezmoi.os "linux" -}}
 sudo apt update
 
 # Install asdf dependencies
@@ -7,9 +14,12 @@ sudo apt install curl git jq
 
 # Python dependencies
 sudo apt install build-essential libssl-dev zlib1g-dev libbz2-dev \
-    libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev \
-    libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl
+libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev \
+libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl
 
+sudo apt install build-essential libssl-dev zlib1g-dev \
+libbz2-dev libreadline-dev libsqlite3-dev curl \
+libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
 
 # Install DVC
 sudo snap install dvc --classic
@@ -17,7 +27,6 @@ sudo snap install dvc --classic
 
 
 {{ else if eq .chezmoi.os "darwin" -}}
-#!/bin/sh
 brew install ripgrep
 {{ end -}}
 
@@ -39,7 +48,9 @@ asdf plugin add poetry
 asdf install poetry latest
 asdf global poetry latest
 
-
+asdf plugin add pipx
+asdf install pipx latest
+asdf global pipx latest
 
 # Install Node.js
 asdf plugin add nodejs
@@ -68,9 +79,12 @@ asdf plugin add bat
 asdf install bat latest
 asdf global bat latest
 
-asdf plugin add mcfly
-asdf install mcfly latest
-asdf global mcfly latest
+# asdf plugin add mcfly
+# asdf install mcfly latest
+# asdf global mcfly latest
+# curl -LSfs https://raw.githubusercontent.com/cantino/mcfly/master/ci/install.sh | sh -s -- --git cantino/mcfly
+brew tap cantino/mcfly
+brew install cantino/mcfly/mcfly
 
 asdf plugin add fd
 asdf install fd latest
@@ -84,12 +98,33 @@ asdf plugin add dust
 asdf install dust latest
 asdf global dust latest
 
-asdf plugin add htop
-asdf install htop latest
-asdf global htop latest
+sudo apt install htop
+sudo apt install ncdu
+sudo apt install ripgrep
+sudo apt install httpie
+pipx install glances
+pipx install litecli
+pipx install pgcli
 
-# tealdeer
-asdf plugin add tealdeer
-asdf install tealdeer latest
-asdf global tealdeer latest
-tealdeer --update
+# docker
+if ! command -v ctop &> /dev/null
+then
+    # BEGIN: ed8c6549bwf9
+    sudo wget https://github.com/bcicen/ctop/releases/download/v0.7.7/ctop-0.7.7-linux-amd64 -O /usr/local/bin/ctop
+    sudo chmod +x /usr/local/bin/ctop
+    # END: ed8c6549bwf9
+else
+    echo "ctop is already installed"
+fi
+
+asdf plugin add lazydocker https://github.com/comdotlinux/asdf-lazydocker.git
+asdf install lazydocker latest
+asdf global lazydocker latest
+
+# tldr
+# https://tracker.debian.org/pkg/rust-tealdeer
+# sudo apt install rust-tealdeer
+# sudo apt install tldr
+# tldr --update
+
+# https://switowski.com/blog/favorite-cli-tools/
