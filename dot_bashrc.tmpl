@@ -162,3 +162,19 @@ export EDITOR="code --wait"
 
 export PATH="$PATH:/home/nam/.local/bin"
 export PATH="$PATH:/snap/bin"
+
+export PNPM_HOME="/home/nam/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
+if ! [ -f ~/.copilot-cli-access-token]; then
+  echo "Please run  github-copilot-cli auth"
+fi
+
+if command -v github-copilot-cli &> /dev/null; then
+  eval "$(github-copilot-cli alias -- "$0")"
+fi
+
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
