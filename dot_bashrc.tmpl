@@ -116,14 +116,11 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   elif [ -f ~/.bash_completions ]; then
     for file in ~/.completions/*; do
-      if [ -f "$file" ]; then
-        . "$file"
-      fi
+      echo "Loading completion file $file"
+      . "$file"
     done
   fi
 fi
-
-
 
 
 . "$HOME/.asdf/asdf.sh"
@@ -169,8 +166,8 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 
-if ! [ -f ~/.copilot-cli-access-token]; then
-  echo "Please run  github-copilot-cli auth"
+if ! [ -f ~/.copilot-cli-access-token ]; then
+    echo "Please run  github-copilot-cli auth"
 fi
 
 if command -v github-copilot-cli &> /dev/null; then
