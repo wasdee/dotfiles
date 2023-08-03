@@ -23,3 +23,5 @@ fi
 if command -v dust &>/dev/null; then
     alias du='dust'
 fi
+
+export RAN_BASHALIAS=1
