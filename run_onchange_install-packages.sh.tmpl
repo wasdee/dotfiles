@@ -43,6 +43,8 @@ asdf plugin add python
 if ! asdf list python | grep -q "$(asdf latest python)"; then
     asdf install python latest
     asdf global python latest
+else
+    echo "Python is already installed"
 fi
 
 # Install Poetry
