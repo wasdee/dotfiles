@@ -40,11 +40,9 @@ fi
 alias asdf=$HOME/.asdf/bin/asdf
 
 
-# List of packages to be installed
-packages=("python" "poetry" "pipx" "nodejs" "pnpm" "just" "fzf" "zoxide" "bat" "fd" "exa" "dust")
+install_package() {
+    package=$1
 
-# Loop over the packages
-for package in ${packages[@]}; do
     # Add the package to asdf
     asdf plugin add $package
 
@@ -57,6 +55,14 @@ for package in ${packages[@]}; do
         # If it is, print a message saying that the package is already installed
         echo "$package is already installed"
     fi
+}
+
+# List of packages to be installed
+packages=("python" "poetry" "pipx" "nodejs" "pnpm" "just" "fzf" "zoxide" "bat" "fd" "exa" "dust")
+
+# Loop over the packages
+for package in ${packages[@]}; do
+    install_package $package
 done
 
 sudo apt install htop
