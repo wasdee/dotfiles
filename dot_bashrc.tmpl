@@ -124,11 +124,12 @@ export PATH=/usr/bin:$PATH
 
 {{ if eq .site "server" }}
 export DOCKER_HOST=unix:///run/user/1000/docker.sock
-export DOCKER_HOST_PATH="/run/user/1000/docker.sock"
+export DOCKER_HOST_PATH=${DOCKER_HOST#unix://}
 {{ end }}
 
 
 export EDITOR="code --wait"
+export SUDO_EDITOR="code --wait"
 
 export PATH="$PATH:/home/nam/.local/bin"
 export PATH="$PATH:/snap/bin"
