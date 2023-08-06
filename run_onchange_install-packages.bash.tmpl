@@ -1,28 +1,41 @@
-#!/usr/bin/env bash
-# a chezmoi script
+#!/bin/sh
+# A chezmoi script to install all the dependencies I need on a new machine
 
 if ! command -v brew &> /dev/null
 then
-    echo "Installing Homebrew"
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 else
     echo "Homebrew is already installed"
 fi
 
 {{ if eq .chezmoi.os "linux" -}}
+install_apt_package() {
+    package=$1
+
+    # Check if the package is already installed
+    if ! dpkg -l | grep -q "^ii  $package "; then
+        # If not, install the package
+        sudo apt install -y $package
+    else
+        # If it is, print a message saying that the package is already installed
+        echo "$package is already installed"
+    fi
+}
+
 sudo apt update
 
 # Install asdf dependencies
-sudo apt install curl git jq
+install_apt_package curl
+install_apt_package git
+install_apt_package jq
 
-# Python dependencies
-sudo apt install build-essential libssl-dev zlib1g-dev libbz2-dev \
-libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev \
-libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl
+# List of Python dependencies
+python_deps=("build-essential" "libssl-dev" "zlib1g-dev" "libbz2-dev" "libreadline-dev" "libsqlite3-dev" "wget" "curl" "llvm" "libncurses5-dev" "libncursesw5-dev" "xz-utils" "tk-dev" "libffi-dev" "liblzma-dev" "libxml2-dev" "libxmlsec1-dev")
 
-sudo apt install build-essential libssl-dev zlib1g-dev \
-libbz2-dev libreadline-dev libsqlite3-dev curl \
-libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+# Loop over the Python dependencies
+for package in ${python_deps[@]}; do
+    install_apt_package $package
+done
 
 # Install DVC
 sudo snap install dvc --classic
@@ -41,65 +54,30 @@ fi
 alias asdf=$HOME/.asdf/bin/asdf
 
 
-# Install Python
-asdf plugin add python
-asdf install python latest
-asdf global python latest
+install_package() {
+    package=$1
 
-# Install Poetry
-asdf plugin add poetry
-asdf install poetry latest
-asdf global poetry latest
+    # Add the package to asdf
+    asdf plugin add $package
 
-asdf plugin add pipx
-asdf install pipx latest
-asdf global pipx latest
+    # Check if the package is already installed
+    if ! asdf list $package | grep -q "$(asdf latest $package)"; then
+        # If not, install the latest version of the package
+        asdf install $package latest
+        asdf global $package latest
+    else
+        # If it is, print a message saying that the package is already installed
+        echo "$package is already installed"
+    fi
+}
 
-# Install Node.js
-asdf plugin add nodejs
-asdf install nodejs 18.17.0
-asdf global nodejs 18.17.0
+# List of packages to be installed
+packages=("python" "poetry" "pipx" "nodejs" "pnpm" "just" "fzf" "zoxide" "bat" "fd" "exa" "dust")
 
-# Install PNPM
-asdf plugin add pnpm
-asdf install pnpm latest
-asdf global pnpm latest
-
-# Install Just
-asdf plugin add just
-asdf install just latest
-asdf global just latest
-
-asdf plugin add fzf
-asdf install fzf latest
-asdf global fzf latest
-
-asdf plugin add zoxide
-asdf install zoxide latest
-asdf global zoxide latest
-
-asdf plugin add bat
-asdf install bat latest
-asdf global bat latest
-
-# asdf plugin add mcfly
-# asdf install mcfly latest
-# asdf global mcfly latest
-# curl -LSfs https://raw.githubusercontent.com/cantino/mcfly/master/ci/install.sh | sh -s -- --git cantino/mcfly
-brew tap cantino/mcfly
-brew install cantino/mcfly/mcfly
-
-asdf plugin add fd
-asdf install fd latest
-asdf global fd latest
-
-asdf plugin add exa
-asdf install exa latest
-asdf global exa latest
-
-asdf plugin add dust
-asdf install dust latest
-asdf global dust latest
+# Loop over the packages
+for package in ${packages[@]}; do
+    install_package $package
+done
 
 sudo apt install htop
 sudo apt install ncdu
@@ -130,3 +108,5 @@ asdf global lazydocker latest
 # sudo apt install rust-tealdeer
 # sudo apt install tldr
 # tldr --update
+
+# https://switowski.com/blog/favorite-cli-tools/
