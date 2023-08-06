@@ -107,7 +107,7 @@ fi
 . "$HOME/.asdf/asdf.sh"
 . "$HOME/.asdf/completions/asdf.bash"
 
-export FLYCTL_INSTALL="/home/nam/.fly"
+export FLYCTL_INSTALL="$HOME/.fly"
 export PATH="$FLYCTL_INSTALL/bin:$PATH"
 
 {{ if and (eq .chezmoi.os "linux") (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
@@ -131,10 +131,10 @@ export DOCKER_HOST_PATH=${DOCKER_HOST#unix://}
 export EDITOR="code --wait"
 export SUDO_EDITOR="code --wait"
 
-export PATH="$PATH:/home/nam/.local/bin"
+export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:/snap/bin"
 
-export PNPM_HOME="/home/nam/.local/share/pnpm"
+export PNPM_HOME="$HOME/.local/share/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
