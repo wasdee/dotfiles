@@ -40,8 +40,10 @@ alias asdf=$HOME/.asdf/bin/asdf
 
 # Install Python
 asdf plugin add python
-asdf install python latest
-asdf global python latest
+if ! asdf list python | grep -q "$(asdf latest python)"; then
+    asdf install python latest
+    asdf global python latest
+fi
 
 # Install Poetry
 asdf plugin add poetry
