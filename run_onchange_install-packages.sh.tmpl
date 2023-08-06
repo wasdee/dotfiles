@@ -29,38 +29,13 @@ install_apt_package curl
 install_apt_package git
 install_apt_package jq
 
-# Python dependencies
-install_apt_package build-essential
-install_apt_package libssl-dev
-install_apt_package zlib1g-dev
-install_apt_package libbz2-dev
-install_apt_package libreadline-dev
-install_apt_package libsqlite3-dev
-install_apt_package wget
-install_apt_package curl
-install_apt_package llvm
-install_apt_package libncurses5-dev
-install_apt_package libncursesw5-dev
-install_apt_package xz-utils
-install_apt_package tk-dev
-install_apt_package libffi-dev
-install_apt_package liblzma-dev
-install_apt_package python-openssl
+# List of Python dependencies
+python_deps=("build-essential" "libssl-dev" "zlib1g-dev" "libbz2-dev" "libreadline-dev" "libsqlite3-dev" "wget" "curl" "llvm" "libncurses5-dev" "libncursesw5-dev" "xz-utils" "tk-dev" "libffi-dev" "liblzma-dev" "python-openssl" "libxml2-dev" "libxmlsec1-dev")
 
-install_apt_package build-essential
-install_apt_package libssl-dev
-install_apt_package zlib1g-dev
-install_apt_package libbz2-dev
-install_apt_package libreadline-dev
-install_apt_package libsqlite3-dev
-install_apt_package curl
-install_apt_package libncursesw5-dev
-install_apt_package xz-utils
-install_apt_package tk-dev
-install_apt_package libxml2-dev
-install_apt_package libxmlsec1-dev
-install_apt_package libffi-dev
-install_apt_package liblzma-dev
+# Loop over the Python dependencies
+for package in ${python_deps[@]}; do
+    install_apt_package $package
+done
 
 # Install DVC
 sudo snap install dvc --classic
