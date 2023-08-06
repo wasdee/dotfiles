@@ -1,4 +1,6 @@
 #!/bin/sh
+# A chezmoi script to install all the dependencies I need on a new machine
+
 if ! command -v brew &> /dev/null
 then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
