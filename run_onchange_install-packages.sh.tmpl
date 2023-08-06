@@ -83,7 +83,7 @@ asdf global bat latest
 # asdf install mcfly latest
 # asdf global mcfly latest
 # curl -LSfs https://raw.githubusercontent.com/cantino/mcfly/master/ci/install.sh | sh -s -- --git cantino/mcfly
-source ~/.bashrc
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 brew tap cantino/mcfly
 brew install cantino/mcfly/mcfly
 
@@ -106,6 +106,12 @@ sudo apt install httpie
 pipx install glances
 pipx install litecli
 pipx install pgcli
+
+export PNPM_HOME="$HOME/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
 pnpm install -g @githubnext/github-copilot-cli
 
 # docker
