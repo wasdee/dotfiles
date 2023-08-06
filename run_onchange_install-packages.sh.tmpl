@@ -49,57 +49,104 @@ fi
 
 # Install Poetry
 asdf plugin add poetry
-asdf install poetry latest
-asdf global poetry latest
+# Install Poetry
+asdf plugin add poetry
+if ! asdf list poetry | grep -q "$(asdf latest poetry)"; then
+    asdf install poetry latest
+    asdf global poetry latest
+else
+    echo "Poetry is already installed"
+fi
 
+# Install Pipx
 asdf plugin add pipx
-asdf install pipx latest
-asdf global pipx latest
+if ! asdf list pipx | grep -q "$(asdf latest pipx)"; then
+    asdf install pipx latest
+    asdf global pipx latest
+else
+    echo "Pipx is already installed"
+fi
 
 # Install Node.js
 asdf plugin add nodejs
-asdf install nodejs 18.17.0
-asdf global nodejs 18.17.0
+if ! asdf list nodejs | grep -q "18.17.0"; then
+    asdf install nodejs 18.17.0
+    asdf global nodejs 18.17.0
+else
+    echo "Node.js is already installed"
+fi
 
 # Install PNPM
 asdf plugin add pnpm
-asdf install pnpm latest
-asdf global pnpm latest
+if ! asdf list pnpm | grep -q "$(asdf latest pnpm)"; then
+    asdf install pnpm latest
+    asdf global pnpm latest
+else
+    echo "PNPM is already installed"
+fi
 
 # Install Just
 asdf plugin add just
-asdf install just latest
-asdf global just latest
+if ! asdf list just | grep -q "$(asdf latest just)"; then
+    asdf install just latest
+    asdf global just latest
+else
+    echo "Just is already installed"
+fi
 
+# Install FZF
 asdf plugin add fzf
-asdf install fzf latest
-asdf global fzf latest
+if ! asdf list fzf | grep -q "$(asdf latest fzf)"; then
+    asdf install fzf latest
+    asdf global fzf latest
+else
+    echo "FZF is already installed"
+fi
 
+# Install Zoxide
 asdf plugin add zoxide
-asdf install zoxide latest
-asdf global zoxide latest
+if ! asdf list zoxide | grep -q "$(asdf latest zoxide)"; then
+    asdf install zoxide latest
+    asdf global zoxide latest
+else
+    echo "Zoxide is already installed"
+fi
 
+# Install Bat
 asdf plugin add bat
-asdf install bat latest
-asdf global bat latest
+if ! asdf list bat | grep -q "$(asdf latest bat)"; then
+    asdf install bat latest
+    asdf global bat latest
+else
+    echo "Bat is already installed"
+fi
 
-# asdf plugin add mcfly
-# asdf install mcfly latest
-# asdf global mcfly latest
-# curl -LSfs https://raw.githubusercontent.com/cantino/mcfly/master/ci/install.sh | sh -s -- --git cantino/mcfly
-brew tap cantino/mcfly
-brew install cantino/mcfly/mcfly
-
+# Install FD
 asdf plugin add fd
-asdf install fd latest
-asdf global fd latest
+if ! asdf list fd | grep -q "$(asdf latest fd)"; then
+    asdf install fd latest
+    asdf global fd latest
+else
+    echo "FD is already installed"
+fi
 
+# Install Exa
 asdf plugin add exa
-asdf install exa latest
-asdf global exa latest
+if ! asdf list exa | grep -q "$(asdf latest exa)"; then
+    asdf install exa latest
+    asdf global exa latest
+else
+    echo "Exa is already installed"
+fi
 
+# Install Dust
 asdf plugin add dust
-asdf install dust latest
+if ! asdf list dust | grep -q "$(asdf latest dust)"; then
+    asdf install dust latest
+    asdf global dust latest
+else
+    echo "Dust is already installed"
+fi
 asdf global dust latest
 
 sudo apt install htop
