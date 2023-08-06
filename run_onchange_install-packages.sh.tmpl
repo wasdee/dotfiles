@@ -38,115 +38,24 @@ fi
 alias asdf=$HOME/.asdf/bin/asdf
 
 
-# Install Python
-asdf plugin add python
-if ! asdf list python | grep -q "$(asdf latest python)"; then
-    asdf install python latest
-    asdf global python latest
-else
-    echo "Python is already installed"
-fi
+# List of packages to be installed
+packages=("python" "poetry" "pipx" "nodejs" "pnpm" "just" "fzf" "zoxide" "bat" "fd" "exa" "dust")
 
-# Install Poetry
-asdf plugin add poetry
-# Install Poetry
-asdf plugin add poetry
-if ! asdf list poetry | grep -q "$(asdf latest poetry)"; then
-    asdf install poetry latest
-    asdf global poetry latest
-else
-    echo "Poetry is already installed"
-fi
+# Loop over the packages
+for package in ${packages[@]}; do
+    # Add the package to asdf
+    asdf plugin add $package
 
-# Install Pipx
-asdf plugin add pipx
-if ! asdf list pipx | grep -q "$(asdf latest pipx)"; then
-    asdf install pipx latest
-    asdf global pipx latest
-else
-    echo "Pipx is already installed"
-fi
-
-# Install Node.js
-asdf plugin add nodejs
-if ! asdf list nodejs | grep -q "18.17.0"; then
-    asdf install nodejs 18.17.0
-    asdf global nodejs 18.17.0
-else
-    echo "Node.js is already installed"
-fi
-
-# Install PNPM
-asdf plugin add pnpm
-if ! asdf list pnpm | grep -q "$(asdf latest pnpm)"; then
-    asdf install pnpm latest
-    asdf global pnpm latest
-else
-    echo "PNPM is already installed"
-fi
-
-# Install Just
-asdf plugin add just
-if ! asdf list just | grep -q "$(asdf latest just)"; then
-    asdf install just latest
-    asdf global just latest
-else
-    echo "Just is already installed"
-fi
-
-# Install FZF
-asdf plugin add fzf
-if ! asdf list fzf | grep -q "$(asdf latest fzf)"; then
-    asdf install fzf latest
-    asdf global fzf latest
-else
-    echo "FZF is already installed"
-fi
-
-# Install Zoxide
-asdf plugin add zoxide
-if ! asdf list zoxide | grep -q "$(asdf latest zoxide)"; then
-    asdf install zoxide latest
-    asdf global zoxide latest
-else
-    echo "Zoxide is already installed"
-fi
-
-# Install Bat
-asdf plugin add bat
-if ! asdf list bat | grep -q "$(asdf latest bat)"; then
-    asdf install bat latest
-    asdf global bat latest
-else
-    echo "Bat is already installed"
-fi
-
-# Install FD
-asdf plugin add fd
-if ! asdf list fd | grep -q "$(asdf latest fd)"; then
-    asdf install fd latest
-    asdf global fd latest
-else
-    echo "FD is already installed"
-fi
-
-# Install Exa
-asdf plugin add exa
-if ! asdf list exa | grep -q "$(asdf latest exa)"; then
-    asdf install exa latest
-    asdf global exa latest
-else
-    echo "Exa is already installed"
-fi
-
-# Install Dust
-asdf plugin add dust
-if ! asdf list dust | grep -q "$(asdf latest dust)"; then
-    asdf install dust latest
-    asdf global dust latest
-else
-    echo "Dust is already installed"
-fi
+    # Check if the package is already installed
+    if ! asdf list $package | grep -q "$(asdf latest $package)"; then
+        # If not, install the latest version of the package
+        asdf install $package latest
+        asdf global $package latest
+    else
+        # If it is, print a message saying that the package is already installed
+        echo "$package is already installed"
+    fi
+done
 asdf global dust latest
 
 sudo apt install htop
