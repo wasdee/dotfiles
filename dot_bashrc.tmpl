@@ -102,6 +102,13 @@ if ! shopt -oq posix; then
   fi
 fi
 
+if [ -d ~/.bash_completions ]; then
+    for file in ~/.bash_completions/*; do
+        echo "Loading completion file $file"
+        . "$file"
+    done
+fi
+
 
 
 . "$HOME/.asdf/asdf.sh"
@@ -123,7 +130,7 @@ export PATH=/usr/bin:$PATH
 
 
 {{ if eq .site "server" }}
-export DOCKER_HOST=unix:///run/user/1000/docker.sock
+export DOCKER_HOST=unix:///run/user/$UID/docker.sock
 export DOCKER_HOST_PATH=${DOCKER_HOST#unix://}
 {{ end }}
 
