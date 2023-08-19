@@ -104,7 +104,7 @@ fi
 
 if [ -d ~/.bash_completions ]; then
     for file in ~/.bash_completions/*; do
-        echo "Loading completion file $file"
+        # echo "Loading completion file $file"
         . "$file"
     done
 fi
