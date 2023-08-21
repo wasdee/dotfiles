@@ -171,7 +171,9 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-
+if  asdf list flutter &> /dev/null ; then
+    export FLUTTER_ROOT="$(asdf where flutter)"
+fi
 
 export RAN_BASHRC=1
 
