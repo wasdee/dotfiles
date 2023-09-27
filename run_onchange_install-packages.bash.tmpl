@@ -50,12 +50,20 @@ brew install ripgrep
 {{ end -}}
 
 
-if [ ! -d "$HOME/.asdf" ]; then
-    git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.12.0
+# if [ ! -d "$HOME/.asdf" ]; then
+#     git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.12.0
+# fi
+
+# alias asdf=$HOME/.asdf/bin/asdf
+
+RTX_BIN="$HOME/.local/share/rtx/bin/rtx"
+
+if [ ! -d $RTX_BIN ]; then
+    curl https://rtx.pub/install.sh | sh
 fi
 
-alias asdf=$HOME/.asdf/bin/asdf
-
+alias rtx=$RTX_BIN
+alias asdf="rtx"
 
 install_package() {
     package=$1
