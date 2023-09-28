@@ -86,7 +86,10 @@ fi
 
 # . "$HOME/.asdf/asdf.sh"
 # . "$HOME/.asdf/completions/asdf.bash"
+# This only works under interactive shells
 eval "$(/home/redblu/.local/share/rtx/bin/rtx activate bash)"
+# this works under non-interactive shells
+export PATH="$HOME/.local/share/rtx/shims:$PATH"
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile

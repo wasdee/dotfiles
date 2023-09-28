@@ -1,4 +1,7 @@
-eval "$(/home/redblu/.local/share/rtx/bin/rtx activate bash)"
+
+# This only works under interactive shell
+# eval "$(/home/redblu/.local/share/rtx/bin/rtx activate bash)"
+export PATH="$HOME/.local/share/rtx/shims:$PATH"
 
 # Check if bat command is available and alias cat to bat
 if command -v bat &>/dev/null; then
