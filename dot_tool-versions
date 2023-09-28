@@ -1,1 +1,13 @@
 1password-cli latest
+lazydocker    latest
+python        latest
+pipx          latest
+node          latest
+pnpm          latest
+just          latest
+fzf           latest
+zoxide        latest
+bat           latest
+fd            latest
+exa           latest
+dust          latest
