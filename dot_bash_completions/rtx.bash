@@ -30,8 +30,14 @@ _rtx() {
             rtx,cache)
                 cmd="rtx__cache"
                 ;;
+            rtx,cfg)
+                cmd="rtx__config"
+                ;;
             rtx,completion)
                 cmd="rtx__completion"
+                ;;
+            rtx,config)
+                cmd="rtx__config"
                 ;;
             rtx,current)
                 cmd="rtx__current"
@@ -84,6 +90,9 @@ _rtx() {
             rtx,list)
                 cmd="rtx__ls"
                 ;;
+            rtx,ln)
+                cmd="rtx__link"
+                ;;
             rtx,local)
                 cmd="rtx__local"
                 ;;
@@ -105,14 +114,32 @@ _rtx() {
             rtx,prune)
                 cmd="rtx__prune"
                 ;;
+            rtx,remove)
+                cmd="rtx__uninstall"
+                ;;
+            rtx,render-completion)
+                cmd="rtx__render__completion"
+                ;;
+            rtx,render-help)
+                cmd="rtx__render__help"
+                ;;
+            rtx,render-mangen)
+                cmd="rtx__render__mangen"
+                ;;
             rtx,reshim)
                 cmd="rtx__reshim"
+                ;;
+            rtx,rm)
+                cmd="rtx__uninstall"
                 ;;
             rtx,self-update)
                 cmd="rtx__self__update"
                 ;;
             rtx,settings)
                 cmd="rtx__settings"
+                ;;
+            rtx,sh)
+                cmd="rtx__shell"
                 ;;
             rtx,shell)
                 cmd="rtx__shell"
@@ -213,6 +240,27 @@ _rtx() {
             rtx__cache__help,help)
                 cmd="rtx__cache__help__help"
                 ;;
+            rtx__config,g)
+                cmd="rtx__config__generate"
+                ;;
+            rtx__config,generate)
+                cmd="rtx__config__generate"
+                ;;
+            rtx__config,help)
+                cmd="rtx__config__help"
+                ;;
+            rtx__config,ls)
+                cmd="rtx__config__ls"
+                ;;
+            rtx__config__help,generate)
+                cmd="rtx__config__help__generate"
+                ;;
+            rtx__config__help,help)
+                cmd="rtx__config__help__help"
+                ;;
+            rtx__config__help,ls)
+                cmd="rtx__config__help__ls"
+                ;;
             rtx__direnv,activate)
                 cmd="rtx__direnv__activate"
                 ;;
@@ -254,6 +302,9 @@ _rtx() {
                 ;;
             rtx__help,completion)
                 cmd="rtx__help__completion"
+                ;;
+            rtx__help,config)
+                cmd="rtx__help__config"
                 ;;
             rtx__help,current)
                 cmd="rtx__help__current"
@@ -315,6 +366,15 @@ _rtx() {
             rtx__help,prune)
                 cmd="rtx__help__prune"
                 ;;
+            rtx__help,render-completion)
+                cmd="rtx__help__render__completion"
+                ;;
+            rtx__help,render-help)
+                cmd="rtx__help__render__help"
+                ;;
+            rtx__help,render-mangen)
+                cmd="rtx__help__render__mangen"
+                ;;
             rtx__help,reshim)
                 cmd="rtx__help__reshim"
                 ;;
@@ -366,6 +426,12 @@ _rtx() {
             rtx__help__cache,clear)
                 cmd="rtx__help__cache__clear"
                 ;;
+            rtx__help__config,generate)
+                cmd="rtx__help__config__generate"
+                ;;
+            rtx__help__config,ls)
+                cmd="rtx__help__config__ls"
+                ;;
             rtx__help__direnv,activate)
                 cmd="rtx__help__direnv__activate"
                 ;;
@@ -414,6 +480,9 @@ _rtx() {
             rtx__plugins,a)
                 cmd="rtx__plugins__install"
                 ;;
+            rtx__plugins,add)
+                cmd="rtx__plugins__install"
+                ;;
             rtx__plugins,help)
                 cmd="rtx__plugins__help"
                 ;;
@@ -429,8 +498,14 @@ _rtx() {
             rtx__plugins,list)
                 cmd="rtx__plugins__ls"
                 ;;
+            rtx__plugins,list-all)
+                cmd="rtx__plugins__ls__remote"
+                ;;
             rtx__plugins,list-remote)
                 cmd="rtx__plugins__ls__remote"
+                ;;
+            rtx__plugins,ln)
+                cmd="rtx__plugins__link"
                 ;;
             rtx__plugins,ls)
                 cmd="rtx__plugins__ls"
@@ -438,10 +513,19 @@ _rtx() {
             rtx__plugins,ls-remote)
                 cmd="rtx__plugins__ls__remote"
                 ;;
+            rtx__plugins,remove)
+                cmd="rtx__plugins__uninstall"
+                ;;
+            rtx__plugins,rm)
+                cmd="rtx__plugins__uninstall"
+                ;;
             rtx__plugins,uninstall)
                 cmd="rtx__plugins__uninstall"
                 ;;
             rtx__plugins,update)
+                cmd="rtx__plugins__update"
+                ;;
+            rtx__plugins,upgrade)
                 cmd="rtx__plugins__update"
                 ;;
             rtx__plugins__help,help)
@@ -541,22 +625,14 @@ _rtx() {
 
     case "${cmd}" in
         rtx)
-            opts="-j -r -y -v -h -V --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help --version activate alias asdf bin-paths cache completion current deactivate direnv doctor env env-vars exec global hook-env implode install latest link local ls ls-remote outdated plugins prune reshim self-update settings shell sync trust uninstall upgrade use version where which help"
+            opts="-q -v -y -h -V --debug --log-level --trace --quiet --verbose --yes --help --version activate alias asdf bin-paths cache completion config current deactivate direnv doctor env env-vars exec global hook-env implode install latest link local ls ls-remote outdated plugins prune reshim settings shell sync trust uninstall upgrade use version where which render-completion render-help render-mangen self-update help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -567,7 +643,7 @@ _rtx() {
             return 0
             ;;
         rtx__activate)
-            opts="-s -q -j -r -y -v -h --shell --status --quiet --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help bash fish nu xonsh zsh"
+            opts="-s -q -v -y -h --shell --status --quiet --debug --log-level --trace --verbose --yes --help bash fish nu xonsh zsh"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -581,16 +657,8 @@ _rtx() {
                     COMPREPLY=($(compgen -W "bash fish nu xonsh zsh" -- "${cur}"))
                     return 0
                     ;;
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -601,7 +669,7 @@ _rtx() {
             return 0
             ;;
         rtx__alias)
-            opts="-p -j -r -y -v -h --plugin --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help get ls set unset help"
+            opts="-p -q -v -y -h --plugin --no-header --debug --log-level --trace --quiet --verbose --yes --help get ls set unset help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -615,16 +683,8 @@ _rtx() {
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -635,22 +695,14 @@ _rtx() {
             return 0
             ;;
         rtx__alias__get)
-            opts="-j -r -y -v -h --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help <PLUGIN> <ALIAS>"
+            opts="-q -v -y -h --debug --log-level --trace --quiet --verbose --yes --help <PLUGIN> <ALIAS>"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -745,30 +797,14 @@ _rtx() {
             return 0
             ;;
         rtx__alias__ls)
-            opts="-p -j -r -y -v -h --plugin --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help"
+            opts="-q -v -y -h --no-header --debug --log-level --trace --quiet --verbose --yes --help [PLUGIN]"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --plugin)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -p)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -779,22 +815,14 @@ _rtx() {
             return 0
             ;;
         rtx__alias__set)
-            opts="-j -r -y -v -h --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help <PLUGIN> <ALIAS> <VALUE>"
+            opts="-q -v -y -h --debug --log-level --trace --quiet --verbose --yes --help <PLUGIN> <ALIAS> <VALUE>"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -805,22 +833,14 @@ _rtx() {
             return 0
             ;;
         rtx__alias__unset)
-            opts="-j -r -y -v -h --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help <PLUGIN> <ALIAS>"
+            opts="-q -v -y -h --debug --log-level --trace --quiet --verbose --yes --help <PLUGIN> <ALIAS>"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -831,22 +851,14 @@ _rtx() {
             return 0
             ;;
         rtx__asdf)
-            opts="-j -r -y -v -h --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help [ARGS]..."
+            opts="-q -v -y -h --debug --log-level --trace --quiet --verbose --yes --help [ARGS]..."
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -857,22 +869,14 @@ _rtx() {
             return 0
             ;;
         rtx__bin__paths)
-            opts="-j -r -y -v -h --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help"
+            opts="-q -v -y -h --debug --log-level --trace --quiet --verbose --yes --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -883,22 +887,14 @@ _rtx() {
             return 0
             ;;
         rtx__cache)
-            opts="-j -r -y -v -h --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help clear help"
+            opts="-q -v -y -h --debug --log-level --trace --quiet --verbose --yes --help clear help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -909,22 +905,14 @@ _rtx() {
             return 0
             ;;
         rtx__cache__clear)
-            opts="-j -r -y -v -h --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help"
+            opts="-q -v -y -h --debug --log-level --trace --quiet --verbose --yes --help [PLUGIN]..."
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -977,30 +965,140 @@ _rtx() {
             return 0
             ;;
         rtx__completion)
-            opts="-s -j -r -y -v -h --shell --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help bash elvish fish powershell zsh"
+            opts="-s -q -v -y -h --shell --debug --log-level --trace --quiet --verbose --yes --help bash fish zsh"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
                 --shell)
-                    COMPREPLY=($(compgen -W "bash elvish fish powershell zsh" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "bash fish zsh" -- "${cur}"))
                     return 0
                     ;;
                 -s)
-                    COMPREPLY=($(compgen -W "bash elvish fish powershell zsh" -- "${cur}"))
+                    COMPREPLY=($(compgen -W "bash fish zsh" -- "${cur}"))
                     return 0
                     ;;
-                --jobs)
+                --log-level)
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        rtx__config)
+            opts="-q -v -y -h --no-header --debug --log-level --trace --quiet --verbose --yes --help ls generate help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --log-level)
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        rtx__config__generate)
+            opts="-o -q -v -y -h --output --debug --log-level --trace --quiet --verbose --yes --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --output)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
-                -j)
+                -o)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        rtx__config__help)
+            opts="ls generate help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        rtx__config__help__generate)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        rtx__config__help__help)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        rtx__config__help__ls)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        rtx__config__ls)
+            opts="-q -v -y -h --no-header --debug --log-level --trace --quiet --verbose --yes --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --log-level)
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -1011,22 +1109,14 @@ _rtx() {
             return 0
             ;;
         rtx__current)
-            opts="-j -r -y -v -h --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help [PLUGIN]"
+            opts="-q -v -y -h --debug --log-level --trace --quiet --verbose --yes --help [PLUGIN]"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -1037,22 +1127,14 @@ _rtx() {
             return 0
             ;;
         rtx__deactivate)
-            opts="-j -r -y -v -h --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help"
+            opts="-q -v -y -h --debug --log-level --trace --quiet --verbose --yes --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -1063,22 +1145,14 @@ _rtx() {
             return 0
             ;;
         rtx__direnv)
-            opts="-j -r -y -v -h --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help envrc exec activate help"
+            opts="-q -v -y -h --debug --log-level --trace --quiet --verbose --yes --help envrc exec activate help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -1089,22 +1163,14 @@ _rtx() {
             return 0
             ;;
         rtx__direnv__activate)
-            opts="-j -r -y -v -h --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help"
+            opts="-q -v -y -h --debug --log-level --trace --quiet --verbose --yes --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -1115,22 +1181,14 @@ _rtx() {
             return 0
             ;;
         rtx__direnv__envrc)
-            opts="-j -r -y -v -h --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help"
+            opts="-q -v -y -h --debug --log-level --trace --quiet --verbose --yes --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -1141,22 +1199,14 @@ _rtx() {
             return 0
             ;;
         rtx__direnv__exec)
-            opts="-j -r -y -v -h --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help"
+            opts="-q -v -y -h --debug --log-level --trace --quiet --verbose --yes --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -1237,22 +1287,14 @@ _rtx() {
             return 0
             ;;
         rtx__doctor)
-            opts="-j -r -y -v -h --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help"
+            opts="-q -v -y -h --debug --log-level --trace --quiet --verbose --yes --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -1263,7 +1305,7 @@ _rtx() {
             return 0
             ;;
         rtx__env)
-            opts="-s -j -r -y -v -h --shell --json --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help [TOOL@VERSION]..."
+            opts="-s -j -J -q -v -y -h --shell --jobs --json --raw --debug --log-level --trace --quiet --verbose --yes --help [TOOL@VERSION]..."
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -1286,7 +1328,7 @@ _rtx() {
                     return 0
                     ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -1297,7 +1339,7 @@ _rtx() {
             return 0
             ;;
         rtx__env__vars)
-            opts="-j -r -y -v -h --file --remove --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help [ENV_VARS]..."
+            opts="-q -v -y -h --file --remove --debug --log-level --trace --quiet --verbose --yes --help [ENV_VARS]..."
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -1311,16 +1353,8 @@ _rtx() {
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -1331,7 +1365,7 @@ _rtx() {
             return 0
             ;;
         rtx__exec)
-            opts="-c -j -r -y -v -h --command --cd --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help [TOOL@VERSION]... [COMMAND]..."
+            opts="-c -C -j -q -v -y -h --command --cd --jobs --raw --debug --log-level --trace --quiet --verbose --yes --help [TOOL@VERSION]... [COMMAND]..."
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -1349,6 +1383,10 @@ _rtx() {
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
+                -C)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
                 --jobs)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
@@ -1358,7 +1396,7 @@ _rtx() {
                     return 0
                     ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -1369,7 +1407,7 @@ _rtx() {
             return 0
             ;;
         rtx__global)
-            opts="-j -r -y -v -h --pin --fuzzy --remove --path --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help [TOOL@VERSION]..."
+            opts="-q -v -y -h --pin --fuzzy --remove --path --debug --log-level --trace --quiet --verbose --yes --help [TOOL@VERSION]..."
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -1379,16 +1417,8 @@ _rtx() {
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -1399,7 +1429,7 @@ _rtx() {
             return 0
             ;;
         rtx__help)
-            opts="activate alias asdf bin-paths cache completion current deactivate direnv doctor env env-vars exec global hook-env implode install latest link local ls ls-remote outdated plugins prune reshim self-update settings shell sync trust uninstall upgrade use version where which help"
+            opts="activate alias asdf bin-paths cache completion config current deactivate direnv doctor env env-vars exec global hook-env implode install latest link local ls ls-remote outdated plugins prune reshim settings shell sync trust uninstall upgrade use version where which render-completion render-help render-mangen self-update help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -1555,6 +1585,48 @@ _rtx() {
         rtx__help__completion)
             opts=""
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        rtx__help__config)
+            opts="ls generate"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        rtx__help__config__generate)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        rtx__help__config__ls)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 4 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
@@ -1972,6 +2044,48 @@ _rtx() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
+        rtx__help__render__completion)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        rtx__help__render__help)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        rtx__help__render__mangen)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
         rtx__help__reshim)
             opts=""
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
@@ -2225,7 +2339,7 @@ _rtx() {
             return 0
             ;;
         rtx__hook__env)
-            opts="-s -j -r -y -v -h --shell --status --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help"
+            opts="-s -q -v -y -h --shell --status --debug --log-level --trace --quiet --verbose --yes --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -2239,16 +2353,8 @@ _rtx() {
                     COMPREPLY=($(compgen -W "bash fish nu xonsh zsh" -- "${cur}"))
                     return 0
                     ;;
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -2259,22 +2365,14 @@ _rtx() {
             return 0
             ;;
         rtx__implode)
-            opts="-j -r -y -v -h --config --dry-run --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help"
+            opts="-n -q -v -y -h --config --dry-run --debug --log-level --trace --quiet --verbose --yes --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -2285,7 +2383,7 @@ _rtx() {
             return 0
             ;;
         rtx__install)
-            opts="-f -v -j -r -y -h --force --verbose --debug --install-missing --jobs --log-level --raw --yes --trace --help [TOOL@VERSION]..."
+            opts="-f -j -v -q -y -h --force --jobs --raw --verbose --debug --log-level --trace --quiet --yes --help [TOOL@VERSION]..."
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -2300,7 +2398,7 @@ _rtx() {
                     return 0
                     ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -2311,22 +2409,14 @@ _rtx() {
             return 0
             ;;
         rtx__latest)
-            opts="-i -j -r -y -v -h --installed --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help <TOOL@VERSION> [ASDF_VERSION]"
+            opts="-i -q -v -y -h --installed --debug --log-level --trace --quiet --verbose --yes --help <TOOL@VERSION> [ASDF_VERSION]"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -2337,22 +2427,14 @@ _rtx() {
             return 0
             ;;
         rtx__link)
-            opts="-f -j -r -y -v -h --force --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help <TOOL@VERSION> <PATH>"
+            opts="-f -q -v -y -h --force --debug --log-level --trace --quiet --verbose --yes --help <TOOL@VERSION> <PATH>"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -2363,7 +2445,7 @@ _rtx() {
             return 0
             ;;
         rtx__local)
-            opts="-p -j -r -y -v -h --parent --pin --fuzzy --remove --path --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help [TOOL@VERSION]..."
+            opts="-p -q -v -y -h --parent --pin --fuzzy --remove --path --debug --log-level --trace --quiet --verbose --yes --help [TOOL@VERSION]..."
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -2373,16 +2455,8 @@ _rtx() {
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -2393,7 +2467,7 @@ _rtx() {
             return 0
             ;;
         rtx__ls)
-            opts="-p -c -g -i -m -j -r -y -v -h --plugin --current --global --installed --parseable --json --missing --prefix --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help [PLUGIN_ARG]"
+            opts="-p -c -g -i -J -m -q -v -y -h --plugin --current --global --installed --parseable --json --missing --prefix --no-header --debug --log-level --trace --quiet --verbose --yes --help [PLUGIN]..."
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -2411,16 +2485,8 @@ _rtx() {
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -2431,22 +2497,14 @@ _rtx() {
             return 0
             ;;
         rtx__ls__remote)
-            opts="-j -r -y -v -h --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help <TOOL@VERSION> [PREFIX]"
+            opts="-q -v -y -h --all --debug --log-level --trace --quiet --verbose --yes --help [TOOL@VERSION] [PREFIX]"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -2457,22 +2515,14 @@ _rtx() {
             return 0
             ;;
         rtx__outdated)
-            opts="-j -r -y -v -h --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help [TOOL@VERSION]..."
+            opts="-q -v -y -h --debug --log-level --trace --quiet --verbose --yes --help [TOOL@VERSION]..."
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -2483,22 +2533,14 @@ _rtx() {
             return 0
             ;;
         rtx__plugins)
-            opts="-a -c -u -j -r -y -v -h --all --core --urls --refs --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help install link ls ls-remote uninstall update help"
+            opts="-a -c -u -q -v -y -h --all --core --user --urls --refs --debug --log-level --trace --quiet --verbose --yes --help install link ls ls-remote uninstall update help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -2621,22 +2663,14 @@ _rtx() {
             return 0
             ;;
         rtx__plugins__install)
-            opts="-f -a -v -j -r -y -h --force --all --verbose --debug --install-missing --jobs --log-level --raw --yes --trace --help [NAME] [GIT_URL] [REST]..."
+            opts="-f -a -v -q -y -h --force --all --verbose --debug --log-level --trace --quiet --yes --help [NEW_PLUGIN] [GIT_URL] [REST]..."
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -2647,22 +2681,14 @@ _rtx() {
             return 0
             ;;
         rtx__plugins__link)
-            opts="-f -j -r -y -v -h --force --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help <NAME> [PATH]"
+            opts="-f -q -v -y -h --force --debug --log-level --trace --quiet --verbose --yes --help <NAME> [PATH]"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -2673,22 +2699,14 @@ _rtx() {
             return 0
             ;;
         rtx__plugins__ls)
-            opts="-a -c -u -j -r -y -v -h --all --core --urls --refs --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help"
+            opts="-a -c -u -q -v -y -h --all --core --user --urls --refs --debug --log-level --trace --quiet --verbose --yes --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -2699,22 +2717,14 @@ _rtx() {
             return 0
             ;;
         rtx__plugins__ls__remote)
-            opts="-u -j -r -y -v -h --urls --only-names --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help"
+            opts="-u -q -v -y -h --urls --only-names --debug --log-level --trace --quiet --verbose --yes --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -2725,22 +2735,14 @@ _rtx() {
             return 0
             ;;
         rtx__plugins__uninstall)
-            opts="-j -r -y -v -h --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help <PLUGIN>..."
+            opts="-p -a -q -v -y -h --purge --all --debug --log-level --trace --quiet --verbose --yes --help [PLUGIN]..."
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -2751,7 +2753,7 @@ _rtx() {
             return 0
             ;;
         rtx__plugins__update)
-            opts="-a -j -r -y -v -h --all --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help [PLUGIN]..."
+            opts="-j -q -v -y -h --jobs --debug --log-level --trace --quiet --verbose --yes --help [PLUGIN]..."
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -2766,7 +2768,7 @@ _rtx() {
                     return 0
                     ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -2777,22 +2779,76 @@ _rtx() {
             return 0
             ;;
         rtx__prune)
-            opts="-j -r -y -v -h --dry-run --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help [PLUGINS]..."
+            opts="-n -q -v -y -h --dry-run --debug --log-level --trace --quiet --verbose --yes --help [PLUGIN]..."
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                --log-level)
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        rtx__render__completion)
+            opts="-s -q -v -y -h --shell --debug --log-level --trace --quiet --verbose --yes --help bash elvish fish powershell zsh"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --shell)
+                    COMPREPLY=($(compgen -W "bash elvish fish powershell zsh" -- "${cur}"))
+                    return 0
+                    ;;
+                -s)
+                    COMPREPLY=($(compgen -W "bash elvish fish powershell zsh" -- "${cur}"))
                     return 0
                     ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        rtx__render__help)
+            opts="-q -v -y -h --debug --log-level --trace --quiet --verbose --yes --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --log-level)
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        rtx__render__mangen)
+            opts="-q -v -y -h --debug --log-level --trace --quiet --verbose --yes --help"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --log-level)
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -2803,22 +2859,14 @@ _rtx() {
             return 0
             ;;
         rtx__reshim)
-            opts="-j -r -y -v -h --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help [PLUGIN] [VERSION]"
+            opts="-q -v -y -h --debug --log-level --trace --quiet --verbose --yes --help [PLUGIN] [VERSION]"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -2829,22 +2877,14 @@ _rtx() {
             return 0
             ;;
         rtx__self__update)
-            opts="-j -r -y -v -h --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help"
+            opts="-f -y -q -v -h --force --no-plugins --yes --debug --log-level --trace --quiet --verbose --help [VERSION]"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -2855,22 +2895,14 @@ _rtx() {
             return 0
             ;;
         rtx__settings)
-            opts="-j -r -y -v -h --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help get ls set unset help"
+            opts="-q -v -y -h --debug --log-level --trace --quiet --verbose --yes --help get ls set unset help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -2881,22 +2913,14 @@ _rtx() {
             return 0
             ;;
         rtx__settings__get)
-            opts="-j -r -y -v -h --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help <KEY>"
+            opts="-q -v -y -h --debug --log-level --trace --quiet --verbose --yes --help <SETTING>"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -2991,22 +3015,14 @@ _rtx() {
             return 0
             ;;
         rtx__settings__ls)
-            opts="-j -r -y -v -h --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help"
+            opts="-q -v -y -h --debug --log-level --trace --quiet --verbose --yes --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -3017,22 +3033,14 @@ _rtx() {
             return 0
             ;;
         rtx__settings__set)
-            opts="-j -r -y -v -h --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help <KEY> <VALUE>"
+            opts="-q -v -y -h --debug --log-level --trace --quiet --verbose --yes --help <SETTING> <VALUE>"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -3043,22 +3051,14 @@ _rtx() {
             return 0
             ;;
         rtx__settings__unset)
-            opts="-j -r -y -v -h --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help <KEY>"
+            opts="-q -v -y -h --debug --log-level --trace --quiet --verbose --yes --help <SETTING>"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -3069,7 +3069,7 @@ _rtx() {
             return 0
             ;;
         rtx__shell)
-            opts="-u -j -r -y -v -h --unset --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help [TOOL@VERSION]..."
+            opts="-j -u -q -v -y -h --jobs --raw --unset --debug --log-level --trace --quiet --verbose --yes --help [TOOL@VERSION]..."
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -3084,7 +3084,7 @@ _rtx() {
                     return 0
                     ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -3095,22 +3095,14 @@ _rtx() {
             return 0
             ;;
         rtx__sync)
-            opts="-j -r -y -v -h --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help node python help"
+            opts="-q -v -y -h --debug --log-level --trace --quiet --verbose --yes --help node python help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -3177,22 +3169,14 @@ _rtx() {
             return 0
             ;;
         rtx__sync__node)
-            opts="-j -r -y -v -h --brew --nvm --nodenv --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help"
+            opts="-q -v -y -h --brew --nvm --nodenv --debug --log-level --trace --quiet --verbose --yes --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -3203,22 +3187,14 @@ _rtx() {
             return 0
             ;;
         rtx__sync__python)
-            opts="-j -r -y -v -h --pyenv --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help"
+            opts="-q -v -y -h --pyenv --debug --log-level --trace --quiet --verbose --yes --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -3229,22 +3205,14 @@ _rtx() {
             return 0
             ;;
         rtx__trust)
-            opts="-j -r -y -v -h --untrust --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help [CONFIG_FILE]"
+            opts="-q -v -y -h --untrust --debug --log-level --trace --quiet --verbose --yes --help [CONFIG_FILE]"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -3255,22 +3223,14 @@ _rtx() {
             return 0
             ;;
         rtx__uninstall)
-            opts="-j -r -y -v -h --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help <TOOL@VERSION>..."
+            opts="-a -n -q -v -y -h --all --dry-run --debug --log-level --trace --quiet --verbose --yes --help [TOOL@VERSION]..."
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -3281,7 +3241,7 @@ _rtx() {
             return 0
             ;;
         rtx__upgrade)
-            opts="-j -r -y -v -h --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help [TOOL@VERSION]..."
+            opts="-n -j -q -v -y -h --dry-run --jobs --raw --debug --log-level --trace --quiet --verbose --yes --help [TOOL@VERSION]..."
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -3296,7 +3256,7 @@ _rtx() {
                     return 0
                     ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -3307,12 +3267,28 @@ _rtx() {
             return 0
             ;;
         rtx__use)
-            opts="-g -p -j -r -y -v -h --pin --fuzzy --remove --global --path --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help [TOOL@VERSION]..."
+            opts="-f -g -e -j -p -q -v -y -h --force --fuzzy --global --env --jobs --raw --remove --path --pin --debug --log-level --trace --quiet --verbose --yes --help [TOOL@VERSION]..."
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
+                --env)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                -e)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --jobs)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                -j)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
                 --remove)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
@@ -3325,16 +3301,8 @@ _rtx() {
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -3345,22 +3313,14 @@ _rtx() {
             return 0
             ;;
         rtx__version)
-            opts="-j -r -y -v -h --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help"
+            opts="-q -v -y -h --debug --log-level --trace --quiet --verbose --yes --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -3371,22 +3331,14 @@ _rtx() {
             return 0
             ;;
         rtx__where)
-            opts="-j -r -y -v -h --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help <TOOL@VERSION> [ASDF_VERSION]"
+            opts="-q -v -y -h --debug --log-level --trace --quiet --verbose --yes --help <TOOL@VERSION> [ASDF_VERSION]"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
             fi
             case "${prev}" in
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -3397,7 +3349,7 @@ _rtx() {
             return 0
             ;;
         rtx__which)
-            opts="-t -j -r -y -v -h --plugin --version --tool --debug --install-missing --jobs --log-level --raw --yes --trace --verbose --help <BIN_NAME>"
+            opts="-t -q -v -y -h --plugin --version --tool --debug --log-level --trace --quiet --verbose --yes --help <BIN_NAME>"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -3411,16 +3363,8 @@ _rtx() {
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
-                --jobs)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
-                -j)
-                    COMPREPLY=($(compgen -f "${cur}"))
-                    return 0
-                    ;;
                 --log-level)
-                    COMPREPLY=($(compgen -f "${cur}"))
+                    COMPREPLY=($(compgen -W "error warn info debug trace" -- "${cur}"))
                     return 0
                     ;;
                 *)
@@ -3434,4 +3378,3 @@ _rtx() {
 }
 
 complete -F _rtx -o nosort -o bashdefault -o default rtx
-
