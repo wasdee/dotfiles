@@ -1,5 +1,4 @@
 1password-cli latest
-lazydocker    latest
 python        latest
 pipx          latest
 node          latest
@@ -12,3 +11,6 @@ fd            latest
 exa           latest
 dust          latest
 poetry        latest
+mcfly         latest
+tealdeer      latest
+lazydocker    latest

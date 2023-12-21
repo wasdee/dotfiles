@@ -52,66 +52,38 @@ brew install ripgrep
 {{ end -}}
 
 
-# if [ ! -d "$HOME/.asdf" ]; then
-#     git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.12.0
-# fi
-
-# alias asdf=$HOME/.asdf/bin/asdf
-
 RTX_BIN="$HOME/.local/share/rtx/bin/rtx"
 
-if [ ! -d $RTX_BIN ]; then
-    curl https://rtx.pub/install.sh | sh
+if ! command -v rtx &> /dev/null; then
+    if [ ! -d "$RTX_BIN" ] && ! command -v rtx &> /dev/null; then
+        curl https://rtx.pub/install.sh | sh
+    else
+        echo "rtx is already installed"
+        RTX_BIN=$(which rtx)
+    fi
 fi
 
 eval "$($RTX_BIN activate bash)"
 
-install_package() {
-    package=$1
-
-    # Add the package to asdf
-    rtx plugin add $package
-
-    # Check if the package is already installed
-    if ! rtx list $package | grep -q "$(rtx latest $package)"; then
-        # If not, install the latest version of the package
-        rtx install $package@latest
-        rtx global $package@latest
-    else
-        # If it is, print a message saying that the package is already installed
-        echo "$package is already installed"
-    fi
-}
-
-# List of packages to be installed
-packages=("python" "poetry" "pipx" "nodejs" "pnpm" "just" "fzf" "zoxide" "bat" "fd" "exa" "dust")
-
-# Loop over the packages
-for package in ${packages[@]}; do
-    install_package $package
-done
+$RTX_BIN plugin add mcfly https://github.com/barolab/asdf-mcfly.git
+$RTX_BIN plugin add tealdeer https://github.com/comdotlinux/asdf-tealdeer.git
+$RTX_BIN plugin add lazydocker https://github.com/comdotlinux/asdf-lazydocker.git
+$RTX_BIN install
 
 # pipx req
 install_apt_package python3-venv
 
 #TODO: pipx and pnpm fails to install
 
-sudo apt install htop
-sudo apt install ncdu
-sudo apt install ripgrep
-sudo apt install httpie
+install_apt_package htop
+install_apt_package ncdu
+install_apt_package ripgrep
+install_apt_package httpie
 pipx install glances
 pipx install litecli
 
 install_apt_package libpq-dev
 pipx install pgcli
-
-export PNPM_HOME="$HOME/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-pnpm install -g @githubnext/github-copilot-cli
 
 # docker
 if ! command -v ctop &> /dev/null
@@ -124,17 +96,6 @@ else
     echo "ctop is already installed"
 fi
 
-rtx plugin add lazydocker https://github.com/comdotlinux/asdf-lazydocker.git
-rtx install lazydocker@latest
-rtx global lazydocker@latest
-
-# tldr
-# https://tracker.debian.org/pkg/rust-tealdeer
-# sudo apt install rust-tealdeer
-# sudo apt install tldr
-# tldr --update
 
 # https://switowski.com/blog/favorite-cli-tools/
 
-brew tap cantino/mcfly
-brew install cantino/mcfly/mcfly
