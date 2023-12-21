@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 # A chezmoi script to install all the dependencies I need on a new machine
 
-
-
 if ! command -v brew &> /dev/null
 then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -11,26 +9,36 @@ else
 fi
 
 {{ if eq .chezmoi.os "linux" -}}
-install_apt_package() {
-    package=$1
+sudo apt update
 
-    # Check if the package is already installed
-    if ! dpkg -l | grep -q "^ii  $package "; then
-        # If not, install the package
-        sudo apt install -y $package
+# Initialize the list of packages
+apt_packages=()
+
+install_apt_package() {
+    if [[ $1 == "COMMIT" ]]; then
+        # Install all packages in the list
+        sudo apt install -y "${apt_packages[@]}"
+        # Reset the list
+        apt_packages=()
     else
-        # If it is, print a message saying that the package is already installed
-        echo "$package is already installed"
+        # Add the package to the list
+        apt_packages+=("$1")
+        echo "current pending packages: ${apt_packages[@]}"
     fi
 }
 
-sudo apt update
 
-# Install asdf dependencies
+# Install asdf plugin dependencies
 install_apt_package curl
 install_apt_package git
 install_apt_package jq
 install_apt_package unzip
+
+# for `pipx`
+install_apt_package python3-venv
+
+# for `pgcli`
+install_apt_package libpq-dev
 
 install_apt_package universal-ctags
 
@@ -41,6 +49,15 @@ python_deps=("build-essential" "libssl-dev" "zlib1g-dev" "libbz2-dev" "libreadli
 for package in ${python_deps[@]}; do
     install_apt_package $package
 done
+
+# Install CLI tools
+install_apt_package htop
+install_apt_package ncdu
+install_apt_package ripgrep
+install_apt_package httpie
+install_apt_package micro
+
+install_apt_package COMMIT
 
 # Install DVC
 sudo snap install dvc --classic
@@ -70,32 +87,17 @@ $RTX_BIN plugin add tealdeer https://github.com/comdotlinux/asdf-tealdeer.git
 $RTX_BIN plugin add lazydocker https://github.com/comdotlinux/asdf-lazydocker.git
 $RTX_BIN install
 
-# pipx req
-install_apt_package python3-venv
 
-#TODO: pipx and pnpm fails to install
-
-install_apt_package htop
-install_apt_package ncdu
-install_apt_package ripgrep
-install_apt_package httpie
 pipx install glances
 pipx install litecli
-
-install_apt_package libpq-dev
 pipx install pgcli
-
-# docker
-if ! command -v ctop &> /dev/null
-then
-    # BEGIN: ed8c6549bwf9
-    sudo wget https://github.com/bcicen/ctop/releases/download/v0.7.7/ctop-0.7.7-linux-amd64 -O /usr/local/bin/ctop
-    sudo chmod +x /usr/local/bin/ctop
-    # END: ed8c6549bwf9
-else
-    echo "ctop is already installed"
-fi
-
+# --include-deps setuptools not working
+# https://stackoverflow.com/questions/77247893/modulenotfounderror-no-module-named-distutils-in-python-3-12
+rtx install python@3.11
+rtx use python@3.11
+pipx install --python $(rtx which python) thefuck
+# pipx inject thefuck setuptools
+pipx upgrade-all
 
 # https://switowski.com/blog/favorite-cli-tools/
 
