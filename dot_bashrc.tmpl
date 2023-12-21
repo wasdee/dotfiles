@@ -162,9 +162,6 @@ if command -v mcfly &> /dev/null; then
 fi
 
 
-if command -v github-copilot-cli &> /dev/null; then
-  eval "$(github-copilot-cli alias -- "$0")"
-fi
 
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
