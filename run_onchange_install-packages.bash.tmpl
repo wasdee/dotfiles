@@ -87,6 +87,8 @@ $RTX_BIN plugin add tealdeer https://github.com/comdotlinux/asdf-tealdeer.git
 $RTX_BIN plugin add lazydocker https://github.com/comdotlinux/asdf-lazydocker.git
 $RTX_BIN install
 
+# for `pipx` completions
+pipx install argcomplete
 
 pipx install glances
 pipx install litecli
@@ -98,6 +100,8 @@ rtx use python@3.11
 pipx install --python $(rtx which python) thefuck
 # pipx inject thefuck setuptools
 pipx upgrade-all
+
+
 
 # https://switowski.com/blog/favorite-cli-tools/
 
