@@ -145,6 +145,7 @@ export EDITOR="code --wait"
 export SUDO_EDITOR="code --wait"
 
 export PATH="$PATH:/snap/bin"
+export PATH="$PATH:$HOME/.cargo/bin"
 
 export PNPM_HOME="$HOME/.local/share/pnpm"
 case ":$PATH:" in
@@ -182,4 +183,9 @@ export PYTHON_KEYRING_BACKEND=keyring.backends.fail.Keyring
 export DOCKER_HOST=unix:///run/user/1000/docker.sock
 
 export RAN_BASHRC=1
+
+if command -v starship &> /dev/null
+then 
+    eval "$(starship init bash)"
+fi
 

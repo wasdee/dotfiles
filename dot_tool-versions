@@ -1,5 +1,5 @@
 1password-cli latest
-python        latest
+python        3.11
 pipx          latest
 node          latest
 pnpm          latest
@@ -15,3 +15,5 @@ mcfly         latest
 tealdeer      latest
 lazydocker    latest
 ctop          latest
+starship      latest
+github-cli    latest
