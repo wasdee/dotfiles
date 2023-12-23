@@ -50,6 +50,9 @@ for package in ${python_deps[@]}; do
     install_apt_package $package
 done
 
+# https://github.com/alacritty/alacritty/blob/master/INSTALL.md
+# apt install cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3
+
 # Install CLI tools
 install_apt_package htop
 install_apt_package ncdu
