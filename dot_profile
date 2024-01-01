@@ -32,3 +32,5 @@ export PATH="$PATH:/home/nam/.local/bin"
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 export RAN_DPROFILE=1
+
+source "/home/nam/.local/share/dorothy/init.sh" # Dorothy

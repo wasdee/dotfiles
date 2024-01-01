@@ -104,8 +104,12 @@ pipx install --python $(rtx which python) thefuck
 # pipx inject thefuck setuptools
 pipx upgrade-all
 
-cargo binstall rm-improved xcp sd procs bottom topgrade broot tokei  zellij xh monolith git-delta 
+cargo binstall --no-confirm rm-improved xcp sd procs bottom topgrade broot tokei  zellij xh monolith git-delta  
 # fails: kdash
-cargo binstall --git https://github.com/sirwart/ripsecrets ripsecrets
+cargo binstall --no-confirm --git https://github.com/sirwart/ripsecrets ripsecrets 
 
 brew install nushell
+
+git config --global user.email {{ .email | quote }}
+git config --global user.name {{ .name | quote }}
+git config --global pull.rebase false
