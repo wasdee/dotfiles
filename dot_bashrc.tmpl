@@ -141,8 +141,8 @@ export DOCKER_HOST_PATH=${DOCKER_HOST#unix://}
 {{ end }}
 
 
-export EDITOR="code --wait"
-export SUDO_EDITOR="code --wait"
+export EDITOR="$(which code) --wait"
+export SUDO_EDITOR=EDITOR
 
 export PATH="$PATH:/snap/bin"
 export PATH="$PATH:$HOME/.cargo/bin"
