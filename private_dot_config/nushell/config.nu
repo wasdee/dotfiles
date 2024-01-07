@@ -1,3 +1,4 @@
+
 # Nushell Config File
 #
 # version = "0.88.1"
