@@ -8,6 +8,8 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
+export RAN_DOTPROFILE=1
+
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists
@@ -31,6 +33,5 @@ export PATH="$PATH:/home/nam/.local/bin"
 
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
-export RAN_DPROFILE=1
-
 source "/home/nam/.local/share/dorothy/init.sh" # Dorothy
+
