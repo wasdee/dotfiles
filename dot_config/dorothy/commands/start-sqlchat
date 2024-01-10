@@ -6,4 +6,4 @@ NEXTAUTH_SECRET=$(openssl rand -hex 5)
 
 trap 'docker stop sqlchat; docker rm sqlchat; exit 0' SIGINT SIGTERM
 echo "running sqlchat via docker"
-docker run -d --name sqlchat --platform linux/amd64 --env NEXTAUTH_SECRET=$NEXTAUTH_SECRET --env OPENAI_API_KEY=$OPENAI_API_KEY -p 3000:3000 --hostname localhost sqlchat/sqlchat
+docker run --name sqlchat --platform linux/amd64 --env NEXTAUTH_SECRET=$NEXTAUTH_SECRET --env OPENAI_API_KEY=$OPENAI_API_KEY -p 3000:3000 --hostname localhost sqlchat/sqlchat
