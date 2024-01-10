@@ -23,8 +23,6 @@ APT_PYTHON_DEPS=(
     'liblzma-dev'
     'libxml2-dev'
     'libxmlsec1-dev'
-    'libpq-dev' # for pgcli
-    'python3-venv' # for pipx
 )
 
 # Apt / apt-get
@@ -32,6 +30,9 @@ APT_PYTHON_DEPS=(
 # APT_UNINSTALL=()
 APT_INSTALL=(
 	'traceroute'
+    'net-tools'
+    'libpq-dev' # for pgcli
+    'python3-venv' # for pipx
 )
 
 APT_INSTALL += "${APT_PYTHON_DEPS[@]}"
