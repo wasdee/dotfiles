@@ -6,15 +6,17 @@
 source "$DOROTHY/config/setup.bash"
 
 APT_PYTHON_DEPS=(
-    'build-essential'
-    'libssl-dev'
+
+)
+
+# Apt / apt-get
+# Used by `setup-linux`
+# APT_UNINSTALL=()
+APT_INSTALL=(
     'zlib1g-dev'
     'libbz2-dev'
     'libreadline-dev'
     'libsqlite3-dev'
-    'wget'
-    'curl'
-    'llvm'
     'libncurses5-dev'
     'libncursesw5-dev'
     'xz-utils'
@@ -23,19 +25,22 @@ APT_PYTHON_DEPS=(
     'liblzma-dev'
     'libxml2-dev'
     'libxmlsec1-dev'
-)
-
-# Apt / apt-get
-# Used by `setup-linux`
-# APT_UNINSTALL=()
-APT_INSTALL=(
+	'libbz2-dev'
+	'libffi-dev'
+	'liblzma-dev'
+	'libncurses5-dev'
+	'libncursesw5-dev'
+	'libpq-dev'
+	'libreadline-dev'
+	'libsqlite3-dev'
+	'libxml2-dev'
+	'libxmlsec1-dev'
+	'python3-venv'
+	'tk-dev'
 	'traceroute'
-    'net-tools'
-    'libpq-dev' # for pgcli
-    'python3-venv' # for pipx
+	'xz-utils'
+	'zlib1g-dev'
 )
-
-APT_INSTALL+=("${APT_PYTHON_DEPS[@]}")
 
 
 # Homebrew / brew / https://brew.sh
@@ -113,6 +118,7 @@ SETUP_UTILS=(
 	'cronitor'
 	'curl'
 	'delta'
+	'devel'
 	'dig'
 	'docker'
 	'dust'
@@ -128,6 +134,7 @@ SETUP_UTILS=(
 	'micro'
 	'nano'
 	'neovim'
+	'netstat'
 	'nu'
 	'pv'
 	'ripgrep'
@@ -140,7 +147,6 @@ SETUP_UTILS=(
 	'wget'
 	'wslu'
 	'xcode'
-    'zoxide'
+	'zoxide'
 	'zsh'
 )
-
