@@ -27,3 +27,6 @@ $env.DOROTHY_THEME = 'starship'
 $env.config.completions.algorithm = 'fuzzy'
 $env.config.history.file_format = 'sqlite'
 $env.config.show_banner = false
+
+mise activate nu |  save ~/.config/dorothy/config/mise.nu
+source ~/.config/dorothy/config/mise.nu
