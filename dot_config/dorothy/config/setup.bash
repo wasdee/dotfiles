@@ -5,12 +5,38 @@
 # Load defaults
 source "$DOROTHY/config/setup.bash"
 
+APT_PYTHON_DEPS=(
+    'build-essential'
+    'libssl-dev'
+    'zlib1g-dev'
+    'libbz2-dev'
+    'libreadline-dev'
+    'libsqlite3-dev'
+    'wget'
+    'curl'
+    'llvm'
+    'libncurses5-dev'
+    'libncursesw5-dev'
+    'xz-utils'
+    'tk-dev'
+    'libffi-dev'
+    'liblzma-dev'
+    'libxml2-dev'
+    'libxmlsec1-dev'
+    'libpq-dev' # for pgcli
+    'python3-venv' # for pipx
+)
+
 # Apt / apt-get
 # Used by `setup-linux`
 # APT_UNINSTALL=()
 APT_INSTALL=(
 	'traceroute'
 )
+
+APT_INSTALL += "${APT_PYTHON_DEPS[@]}"
+
+
 
 # Homebrew / brew / https://brew.sh
 # Used by `setup-mac-brew`
@@ -78,24 +104,43 @@ HOMEBREW_ENCODING_INSTALL='no' # '', 'yes', 'no'
 # You can use `setup-utils --configure` to configure these.
 # 'docker'
 SETUP_UTILS=(
-	'bash'
+	'1password-cli'
+	'bandwhich'
 	'bat'
+	'bottom'
 	'brew'
 	'carapace'
+	'cronitor'
 	'curl'
+	'delta'
+	'dig'
+	'docker'
 	'dust'
+	'fd'
+	'gh'
 	'git'
+	'got'
 	'grex'
+	'gum'
+	'httpie'
+	'hyperfine'
+	'jq'
+	'micro'
+	'nano'
+	'neovim'
 	'nu'
+	'pv'
 	'ripgrep'
-	'rust'
+	'shellcheck'
 	'starship'
+	'tealdeer'
+	'tokei'
+	'trash'
+	'warp'
 	'wget'
+	'wslu'
+	'xcode'
+    'zoxide'
 	'zsh'
 )
 
-if is-mac; then
-	SETUP_UTILS+=('vscode')
-else
-	SETUP_UTILS+=('nano')
-fi
