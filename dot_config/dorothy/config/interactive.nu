@@ -21,3 +21,9 @@ if ($linuxbrew_bin | path exists) {
 	# remove linuxbrew from path, if linuxbrew is not installed
 	echo "skip: linuxbrew not installed"
 }
+
+$env.DOROTHY_THEME = 'starship'
+
+$env.config.completions.algorithm = 'fuzzy'
+$env.config.history.file_format = 'sqlite'
+$env.config.show_banner = false

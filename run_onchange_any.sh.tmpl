@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+git config --global user.email {{ .email | quote }}
+git config --global user.name {{ .name | quote }}
+
+# prefer fast-forward
+git config --global pull.rebase false
+
+echo "git is configured"

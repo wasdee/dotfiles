@@ -94,12 +94,11 @@ fi
 # fix poetry keyring https://github.com/python-poetry/poetry/issues/1917
 export PYTHON_KEYRING_BACKEND=keyring.backends.fail.Keyring
 
-
-export RAN_BASHRC=1
-
 if command -v starship &> /dev/null
 then 
     eval "$(starship init bash)"
 fi
 
 # [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
+
+export DOROTHY_THEME='starship'

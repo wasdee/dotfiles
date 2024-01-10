@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# A chezmoi script to install all the dependencies I need on a new machine
+
+mise_BIN="$HOME/.local/bin/mise"
+
+if ! command -v mise &> /dev/null; then
+    if [ ! -d "$mise_BIN" ] && ! command -v mise &> /dev/null; then
+        curl https://mise.jdx.dev/install.sh | sh
+    else
+        echo "mise is already installed"
+        mise_BIN=$(which mise)
+    fi
+fi
+
+
+$mise_BIN plugin add mcfly https://github.com/barolab/asdf-mcfly.git
+$mise_BIN plugin add tealdeer https://github.com/comdotlinux/asdf-tealdeer.git
+$mise_BIN plugin add lazydocker https://github.com/comdotlinux/asdf-lazydocker.git
+
+echo "Please run `mise i` to install all the packages in ~/.tool-versions"

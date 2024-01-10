@@ -1,4 +1,3 @@
-1password-cli latest
 python        3.11
 pipx          latest
 node          latest
@@ -6,14 +5,9 @@ pnpm          latest
 just          latest
 fzf           latest
 zoxide        latest
-bat           latest
-fd            latest
 exa           latest
-dust          latest
 poetry        latest
 mcfly         latest
-tealdeer      latest
 lazydocker    latest
 ctop          latest
-starship      latest
 github-cli    latest

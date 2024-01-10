@@ -2,12 +2,42 @@ packages:
   darwin:
     brews:
     - 'git'
-    casks:
-    - 'google-chrome'
+    # casks:
+    # - 'google-chrome'
   
   linux:
     apts:
+    - 'git'
+    - 'unzip'
+    - 'curl'
+    - 'wget'
+    - 'jq'
+    # for pipx
+    - 'python3-venv' 
+    # for pgcli
+    - 'libpq-dev'
+    # python build
+    - 'build-essential'
+    - 'libssl-dev'
+    - 'zlib1g-dev'
+    - 'libbz2-dev'
+    - 'libreadline-dev'
+    - 'libsqlite3-dev'
+    - 'wget'
+    - 'curl'
+    - 'llvm'
+    - 'libncurses5-dev'
+    - 'libncursesw5-dev'
+    - 'xz-utils'
+    - 'tk-dev'
+    - 'libffi-dev'
+    - 'liblzma-dev'
+    - 'libxml2-dev'
+    - 'libxmlsec1-dev'
+    
   wsl:
     apts:
     - 'wslu'
-    
+  rpi:
+    apts:
+    - 'git'
