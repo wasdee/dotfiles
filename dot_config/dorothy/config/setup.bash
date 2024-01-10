@@ -35,7 +35,9 @@ APT_INSTALL=(
     'python3-venv' # for pipx
 )
 
-APT_INSTALL += "${APT_PYTHON_DEPS[@]}"
+for dep in "${APT_PYTHON_DEPS[@]}"; do
+    APT_INSTALL+=" $dep"
+done
 
 
 
