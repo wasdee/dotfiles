@@ -35,10 +35,7 @@ APT_INSTALL=(
     'python3-venv' # for pipx
 )
 
-for dep in "${APT_PYTHON_DEPS[@]}"; do
-    APT_INSTALL+=" $dep"
-done
-
+APT_INSTALL+=("${APT_PYTHON_DEPS[@]}")
 
 
 # Homebrew / brew / https://brew.sh
