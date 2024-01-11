@@ -1,0 +1,1 @@
+winget install 1password-cli
