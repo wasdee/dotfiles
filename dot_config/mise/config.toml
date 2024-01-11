@@ -1,0 +1,4 @@
+[tools]
+ninja = "latest"
+poetry = "latest"
+pipx = "latest"
