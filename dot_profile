@@ -36,7 +36,7 @@ export PATH="$PATH:$HOME/.cargo/bin"
 
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/.local/bin" ]; then
-    PATH="$HOME/.local/bin:$PATH"
+    export PATH="$HOME/.local/bin:$PATH"
 fi
 
 # Created by `pipx` on 2023-07-29 09:36:41
@@ -44,5 +44,9 @@ export PATH="$PATH:/home/nam/.local/bin"
 
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
+
+export PATH="$HOME/.local/share/mise/shims:$PATH"
+
 source "/home/nam/.local/share/dorothy/init.sh" # Dorothy
+
 

@@ -1,9 +1,4 @@
-# . "$HOME/.asdf/asdf.sh"
-# . "$HOME/.asdf/completions/asdf.bash"
-# This only works under interactive shells
-eval "$($HOME/.local/share/rtx/bin/rtx activate bash)"
-# this works under non-interactive shells
-export PATH="$HOME/.local/share/rtx/shims:$PATH"
+
 
 # for pipx completion
 export PATH="$PATH:$HOME/.local/bin"
@@ -37,22 +32,25 @@ fi
 export FLYCTL_INSTALL="$HOME/.fly"
 export PATH="$FLYCTL_INSTALL/bin:$PATH"
 
-{{ if and (eq .chezmoi.os "linux") (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+if is-wsl; then
 # WSL-specific code
 export BROWSER=/usr/bin/wslview
 alias open="/usr/bin/wslview"
+fi
 
-export DOCKER_HOST=unix:///var/run/docker.sock
-export DOCKER_HOST_PATH="/var/run/docker.sock"
-{{ end }}
+
+
 
 export PATH=/usr/bin:$PATH
 
 
-{{ if eq .site "server" }}
-export DOCKER_HOST=unix:///run/user/$UID/docker.sock
-export DOCKER_HOST_PATH=${DOCKER_HOST#unix://}
-{{ end }}
+if [ -S /var/run/docker.sock ]; then
+    export DOCKER_HOST=unix:///var/run/docker.sock
+    export DOCKER_HOST_PATH="/var/run/docker.sock"
+elif [ -S /run/user/$UID/docker.sock ]; then
+    export DOCKER_HOST=unix:///run/user/$UID/docker.sock
+    export DOCKER_HOST_PATH=${DOCKER_HOST#unix://}
+fi
 
 
 export EDITOR="$(which code) --wait"
@@ -102,3 +100,5 @@ fi
 # [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
 
 export DOROTHY_THEME='starship'
+alias chat='aider --4-turbo --map-token 2048'
+eval "$(mise activate bash)"
