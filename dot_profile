@@ -42,11 +42,13 @@ fi
 # Created by `pipx` on 2023-07-29 09:36:41
 export PATH="$PATH:/home/nam/.local/bin"
 
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-
 
 export PATH="$HOME/.local/share/mise/shims:$PATH"
 
-source "/home/nam/.local/share/dorothy/init.sh" # Dorothy
+export FLYCTL_INSTALL="$HOME/.fly"
+export PATH="$FLYCTL_INSTALL/bin:$PATH"
 
+export PATH=/usr/bin:$PATH
 
+# fix poetry keyring https://github.com/python-poetry/poetry/issues/1917
+export PYTHON_KEYRING_BACKEND=keyring.backends.fail.Keyring
