@@ -23,6 +23,17 @@ if [ -d "$HOME/bin" ]; then
     PATH="$HOME/bin:$PATH"
 fi
 
+# set PATH so it includes user's private bin directories
+export PNPM_HOME="$HOME/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) PATH="$PNPM_HOME:$PATH" ;;
+esac
+
+export PATH="$PATH:/snap/bin"
+export PATH="$PATH:$HOME/.cargo/bin"
+
+
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/.local/bin" ]; then
     PATH="$HOME/.local/bin:$PATH"
