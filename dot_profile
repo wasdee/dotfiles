@@ -31,6 +31,9 @@ fi
 if [ -d "$PNPM_HOME" ] && [ ":$PATH:" != *":$PNPM_HOME:"* ]; then
     PATH="$PNPM_HOME:$PATH"
 fi
+if [ -d "$PNPM_HOME" ] && [ ":$PATH:" != *":$PNPM_HOME:"* ]; then
+    PATH="$PNPM_HOME:$PATH"
+fi
 
 export PATH="$PATH:/snap/bin"
 export PATH="$PATH:$HOME/.cargo/bin"
