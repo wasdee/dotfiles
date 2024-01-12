@@ -18,46 +18,32 @@ if [ -n "$BASH_VERSION" ]; then
     fi
 fi
 
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] && [ ":$PATH:" != *":$HOME/bin:"* ]; then
-    PATH="$HOME/bin:$PATH"
-fi
+
+export PATH="$HOME/bin:$PATH"
+
 
 # set PATH so it includes user's private bin directories
 export PNPM_HOME="$HOME/.local/share/pnpm"
-if [ -d "$PNPM_HOME" ] && [ ":$PATH:" != *":$PNPM_HOME:"* ]; then
-    PATH="$PNPM_HOME:$PATH"
-fi
-if [ -d "$PNPM_HOME" ] && [ ":$PATH:" != *":$PNPM_HOME:"* ]; then
-    PATH="$PNPM_HOME:$PATH"
-fi
-if [ -d "$PNPM_HOME" ] && [ ":$PATH:" != *":$PNPM_HOME:"* ]; then
-    PATH="$PNPM_HOME:$PATH"
-fi
+export PATH="$PNPM_HOME:$PATH"
 
 export PATH="$PATH:/snap/bin"
 export PATH="$PATH:$HOME/.cargo/bin"
 
 
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/.local/bin" ] && [ ":$PATH:" != *":$HOME/.local/bin:"* ]; then
-    export PATH="$HOME/.local/bin:$PATH"
-fi
 
-# Created by `pipx` on 2023-07-29 09:36:41
-PIPX_BIN_PATH="/home/nam/.local/bin"
-if [ -d "$PIPX_BIN_PATH" ] && [ ":$PATH:" != *":$PIPX_BIN_PATH:"* ]; then
-if [ -d "$PIPX_BIN_PATH" ] && [ ":$PATH:" != *":$PIPX_BIN_PATH:"* ]; then
-    PATH="$PATH:$PIPX_BIN_PATH"
-fi
+export PATH="$HOME/.local/bin:$PATH"
 
+
+
+PIPX_BIN_PATH="$HOME/.local/bin"
+export PATH="$PATH:$PIPX_BIN_PATH"
 
 export PATH="$HOME/.local/share/mise/shims:$PATH"
+
 
 export FLYCTL_INSTALL="$HOME/.fly"
 export PATH="$FLYCTL_INSTALL/bin:$PATH"
 
-export PATH=/usr/bin:$PATH
 
 # fix poetry keyring https://github.com/python-poetry/poetry/issues/1917
 export PYTHON_KEYRING_BACKEND=keyring.backends.fail.Keyring

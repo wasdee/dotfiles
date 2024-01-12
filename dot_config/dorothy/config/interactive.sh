@@ -81,8 +81,8 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-if  rtx list flutter &> /dev/null ; then
-    export FLUTTER_ROOT="$(rtx where flutter)"
+if  mise list flutter &> /dev/null ; then
+    export FLUTTER_ROOT="$(mise where flutter)"
 fi
 
 if command -v thefuck &> /dev/null; then

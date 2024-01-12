@@ -4,5 +4,5 @@
 
 set -e
 
-rtx completions bash > ../dot_bash_completions/rtx.bash
+mise completions bash > ../dot_bash_completions/mise.bash
 just --completions bash > ../dot_bash_completions/just.bash

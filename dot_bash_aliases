@@ -1,7 +1,4 @@
-
-# This only works under interactive shell
-# eval "$(/home/redblu/.local/share/rtx/bin/rtx activate bash)"
-export PATH="$HOME/.local/share/rtx/shims:$PATH"
+export RAN_BASHALIAS=1
 
 # Check if bat command is available and alias cat to bat
 if command -v bat &>/dev/null; then
@@ -44,4 +41,3 @@ else
     echo "dust command not found. Alias for du not created."
 fi
 
-export RAN_BASHALIAS=1
