@@ -25,10 +25,9 @@ fi
 
 # set PATH so it includes user's private bin directories
 export PNPM_HOME="$HOME/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) PATH="$PNPM_HOME:$PATH" ;;
-esac
+if [ -d "$PNPM_HOME" ] && [ ":$PATH:" != *":$PNPM_HOME:"* ]; then
+    PATH="$PNPM_HOME:$PATH"
+fi
 
 export PATH="$PATH:/snap/bin"
 export PATH="$PATH:$HOME/.cargo/bin"
@@ -40,7 +39,10 @@ if [ -d "$HOME/.local/bin" ] && [ ":$PATH:" != *":$HOME/.local/bin:"* ]; then
 fi
 
 # Created by `pipx` on 2023-07-29 09:36:41
-export PATH="$PATH:/home/nam/.local/bin"
+PIPX_BIN_PATH="/home/nam/.local/bin"
+if [ -d "$PIPX_BIN_PATH" ] && [ ":$PATH:" != *":$PIPX_BIN_PATH:"* ]; then
+    PATH="$PATH:$PIPX_BIN_PATH"
+fi
 
 
 export PATH="$HOME/.local/share/mise/shims:$PATH"
