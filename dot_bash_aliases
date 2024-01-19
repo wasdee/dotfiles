@@ -41,3 +41,5 @@ else
     echo "dust command not found. Alias for du not created."
 fi
 
+# try until last command succeeds
+alias rr='while [ $? -ne 0 ]; do eval $(history -p !!); done'
