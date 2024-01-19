@@ -42,4 +42,4 @@ else
 fi
 
 # try until last command succeeds
-alias rr='while [ $? -ne 0 ]; do eval $(history -p !!); done'
+alias trytilsucess='while [ $? -ne 0 ]; do eval $(history -p !!); done'
