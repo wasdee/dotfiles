@@ -1,8 +1,6 @@
 
-
-# for pipx completion
-export PATH="$PATH:$HOME/.local/bin"
-
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+eval "$(mise activate bash)"
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -66,15 +64,19 @@ case ":$PATH:" in
 esac
 
 
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+
+PATH="$HOME/.local/share/mise/shims:$PATH"
 
 # run here since it checks for the existence cmd 
-if command -v zoxide &> /dev/null; then
-    eval "$(zoxide init bash)"
+if  mise list zoxide &> /dev/null; then
+    BIN=$(mise which zoxide)
+    eval "$($BIN init bash)"
 fi
 
-if command -v mcfly &> /dev/null; then
-    eval "$(mcfly init bash)"
+if  mise list mcfly &> /dev/null; then
+    BIN=$(mise which mcfly)
+    eval "$($BIN init bash)"
 fi
 
 if [ -f ~/.bash_aliases ]; then
@@ -100,5 +102,4 @@ fi
 # [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
 
 export DOROTHY_THEME='starship'
-alias chat='aider --4-turbo --map-token 2048'
-eval "$(mise activate bash)"
+
