@@ -45,3 +45,5 @@ fi
 
 # try until last command succeeds
 alias trytilsucess='while [ $? -ne 0 ]; do eval $(history -p !!); done'
+
+alias chat='aider --4-turbo --map-token 2048'
