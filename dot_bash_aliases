@@ -1,5 +1,7 @@
 export RAN_BASHALIAS=1
 
+source "$HOME/.profile"
+
 # Check if bat command is available and alias cat to bat
 if command -v bat &>/dev/null; then
     alias cat='bat'
